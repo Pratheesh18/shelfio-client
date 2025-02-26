@@ -23,6 +23,15 @@ const CreateBook = () => {
     setShowPopup(false);
   };
 
+
+  const handleEnterKeyPress = (e) => {
+    if (e.key === "Enter" && bookName.trim()) {
+      console.log("Enter key pressed");
+      e.preventDefault();
+      createBtnHandler();
+    }
+  };
+
   return (
     <div className="relative flex w-full">
       <Button
@@ -40,7 +49,9 @@ const CreateBook = () => {
           <Input
             autoFocus={true}
             onChange={(e) => setBookName(e.target.value)}
+            onKeyDown={handleEnterKeyPress}
             label="Book Name"
+            value={bookName}
           />
 
           <Button
