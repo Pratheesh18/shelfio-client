@@ -13,16 +13,20 @@ const CreateBook = () => {
   const { createBook } = useBookCtx();
 
   const createBtnHandler = async () => {
+    if (!bookName.trim()) return;
+
     setIsLoading(true);
-
-    const payload = { title: bookName };
-
-    await createBook(payload);
-
-    setIsLoading(false);
-    setShowPopup(false);
+    try {
+      const payload = { title: bookName.trim() };
+      await createBook(payload);
+      setBookName("");
+      setShowPopup(false);
+    } catch (error) {
+      console.error("Error creating book:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
-
 
   const handleEnterKeyPress = (e) => {
     if (e.key === "Enter" && bookName.trim()) {
@@ -52,6 +56,7 @@ const CreateBook = () => {
             onKeyDown={handleEnterKeyPress}
             label="Book Name"
             value={bookName}
+            type="text"
           />
 
           <Button
